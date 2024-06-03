@@ -45,20 +45,32 @@ flashcarts with a particular load address:
 
 flashcarts that require extra files or tools
 - M3 DS Real, R4RTS, iTouchDS, iTouch2, R4 SDHC RTS black
-    - Any of these will launch /_system_/_sys_data/r4i.sys which is just a normal NDS file
-    - all boot files are derived from the R4RTS loader, with different encryption keys
-    - All thanks goes to Taiju Yamada, Rudolph and NDS Laboratory for tools and/or tips on getting this correct
+    - These carts use the `DSBooter` header format. This header is often encrypted
+        - Each byte of the header is XORed with a given key; keys listed below
+    - A tool named `dsbize` by Taiju Yamada (Xenon++) can convert a given SRL to DSBooter format, with a pre-provided DSBooter header
+        - TODO: Can we generate our own header? It doesn't seem to work with the ndstool default header
+        - dsbize can also XOR the needful
+        - SRL in question must have matching entry/load addresses for the ARM9/ARM7
     - R4RTS:
-        - launches 'loader.eng', which launches /_system_/_sys_data/r4i.sys
+        - launches `loader.eng`
+        - Header XOR key: 0x72
     - R4 SDHC RTS black
-        - launches /_DS_MENU.sys.
+        - launches `_DS_MENU.sys`
         - otherwise identical to R4RTS. No effort was put in here. Thanks r4isdhc.com team
     - M3 DS Real:
-        - checks /SYSTEM/g6dsload.1, and launches /SYSTEM/g6dsloader.eng. 
+        - checks `/SYSTEM/g6dsload.1`, and launches `/SYSTEM/g6dsloader.eng` (or `.jp`/`.gb` depending on cartridge region? Thus far only `.eng` models are found)
         - g6dsload.1 is a very specific stub for now, not sure what its use is but it needs to be there, so for now I just used whatever the converter spewed out
+            - TODO: what is this thing?
+        - Header XOR key:
+            - jp:  0x07
+            - eng: 0x12
+            - gb:  0x23
     - iTouchDS, iTouch2
-        - launches `boot.*` depending on region of cart. No easy way to identify, but they are all different encryption keys.
-        - just check which one it is manually, it's 3 files anyway
+        - launches `boot.{eng,jp,gb}` depending on region of cart
+        - Header XOR key:
+            - jp:  0x37
+            - eng: 0x32
+            - gb:  0x33
 - M3i Zero (GMP-Z003)
     - a tool by Taiju Yamada (Xenon++) named dsbize is required. dsbize source is in /resources/dsbize
         - Compile it for PC then run `dsbize <rom name here> g003menu.eng 0x12`

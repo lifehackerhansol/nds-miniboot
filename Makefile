@@ -33,10 +33,12 @@ ARM7ELF		:= build/arm7.elf
 NDSROM		:= build/miniboot.nds
 
 SCRIPT_R4CRYPT		:= scripts/r4crypt.lua
+SCRIPT_DSBIZE		:= scripts/dsbize
 
 NDSROM_ACE3DS_DLDI	:= blobs/dldi/ace3ds_sd.dldi
 NDSROM_AK2_DLDI		:= blobs/dldi/ak2_sd.dldi
 NDSROM_DSONE_DLDI	:= blobs/dldi/scds3.dldi
+NDSROM_M3DS_DLDI	:= blobs/dldi/m3ds.dldi
 NDSROM_R4_DLDI		:= blobs/dldi/r4tfv3.dldi
 NDSROM_R4IDSN_DLDI	:= blobs/dldi/r4idsn_sd.dldi
 
@@ -44,6 +46,7 @@ NDSROM_ACE3DS		:= dist/ace3dsplus/_ds_menu.dat
 NDSROM_AK2		:= dist/generic/akmenu4.nds
 NDSROM_DSONE	:= dist/generic/scfw.sc
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
+NDSROM_M3DS		:= dist/m3ds/SYSTEM/g6dsload.eng
 NDSROM_R4		:= dist/generic/_DS_MENU.DAT
 NDSROM_R4IDSN		:= dist/r4idsn/_dsmenu.dat
 NDSROM_R4ILS		:= dist/ace3dsplus/_dsmenu.dat
@@ -57,11 +60,15 @@ all: \
 	$(NDSROM_AK2) \
 	$(NDSROM_DSONE) \
 	$(NDSROM_GWBLUE) \
+	$(NDSROM_M3DS) \
 	$(NDSROM_R4) \
 	$(NDSROM_R4IDSN) \
 	$(NDSROM_R4ILS) \
 	$(NDSROM_R4ITT)
 	$(_V)$(CP) LICENSE README.md dist/
+
+$(SCRIPT_DSBIZE): scripts/dsbize.c
+	$(_V)$(CC) -o $@ $<
 
 $(NDSROM_ACE3DS): $(NDSROM) $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
 	@$(MKDIR) -p $(@D)
@@ -128,6 +135,19 @@ $(NDSROM_DSONE): arm9 arm7 $(NDSROM_DSONE_DLDI)
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_DSONE_DLDI) $@
 
+$(NDSROM_M3DS): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
+	@$(MKDIR) -p $(@D)
+	@echo "  NDSTOOL $@"
+	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
+		-9 build/arm9.bin -7 build/arm7.bin \
+		-r7 0x23ad800 -e7 0x23ad800 \
+		-r9 0x2380000 -e9 0x2380000 -h 0x200
+	@echo "  DLDI    $@"
+	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
+	@echo "  DSBIZE  $@"
+	$(_V)./$(SCRIPT_DSBIZE) $@ 0x12
+	@printf "kari \012" > $(@D)/g6dsload.1
+
 $(NDSROM_R4): $(NDSROM) $(NDSROM_R4_DLDI) $(SCRIPT_R4CRYPT)
 	@$(MKDIR) -p $(@D)
 	@echo "  DLDI    $@"
@@ -152,7 +172,7 @@ $(NDSROM): arm9 arm7
 
 clean:
 	@echo "  CLEAN"
-	$(_V)$(RM) build dist
+	$(_V)$(RM) build dist $(SCRIPT_DSBIZE)
 
 arm9:
 	$(_V)+$(MAKE) -f Makefile.miniboot CPU=arm9 --no-print-directory
