@@ -33,7 +33,7 @@ flashcarts that have some protection built in
 flashcarts with a particular load address:
 - all r4ids.cn carts, R4 Ultra and R4i Ultra
     - EWRAM entry (e9 entry address) must be 0x02000800
-    - For some reason if you try to change this by setting CRT0 address in LDFLAGS this doesn't work. So a specs file is provided.
+    - For some reason if you try to change this by setting CRT0 address in LDFLAGS this doesn't work. One will need to hack the linkerscript directly, or ensure position-independence of the SRL.
     - R4i Ultra can be converted to an Acekard 2i, it would then work exactly as the Acekard 2i as explained below
 - Acekard 2, 2.1, 2i
     - EWRAM entry (e9 entry address) must be 0x02000450
