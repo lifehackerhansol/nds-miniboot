@@ -15,6 +15,7 @@ flashcart's memory card:
 | ------ | --------- |
 | Ace3DS+ / Ace3DS X | ace3dsplus |
 | Acekard 2/2i | generic |
+| Datel Games 'n' Music | generic |
 | Gateway Blue | gwblue |
 | iTouchDS | m3ds |
 | M3 DS Real | m3ds |

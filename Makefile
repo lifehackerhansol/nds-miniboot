@@ -38,6 +38,7 @@ SCRIPT_DSBIZE		:= scripts/dsbize
 NDSROM_ACE3DS_DLDI	:= blobs/dldi/ace3ds_sd.dldi
 NDSROM_AK2_DLDI		:= blobs/dldi/ak2_sd.dldi
 NDSROM_DSONE_DLDI	:= blobs/dldi/scds3.dldi
+NDSROM_GMTF_DLDI	:= blobs/dldi/gmtf.dldi
 NDSROM_M3DS_DLDI	:= blobs/dldi/m3ds.dldi
 NDSROM_R4_DLDI		:= blobs/dldi/r4tfv3.dldi
 NDSROM_R4IDSN_DLDI	:= blobs/dldi/r4idsn_sd.dldi
@@ -45,6 +46,7 @@ NDSROM_R4IDSN_DLDI	:= blobs/dldi/r4idsn_sd.dldi
 NDSROM_ACE3DS		:= dist/ace3dsplus/_ds_menu.dat
 NDSROM_AK2		:= dist/generic/akmenu4.nds
 NDSROM_DSONE	:= dist/generic/scfw.sc
+NDSROM_GMTF		:= dist/generic/bootme.nds
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
 NDSROM_ITDS_ENG		:= dist/m3ds/boot.eng
 NDSROM_ITDS_GB		:= dist/m3ds/boot.gb
@@ -64,6 +66,7 @@ all: \
 	$(NDSROM_ACE3DS) \
 	$(NDSROM_AK2) \
 	$(NDSROM_DSONE) \
+	$(NDSROM_GMTF) \
 	$(NDSROM_GWBLUE) \
 	$(NDSROM_ITDS_ENG) \
 	$(NDSROM_ITDS_GB) \
@@ -219,6 +222,12 @@ $(NDSROM_AK2): $(NDSROM) $(NDSROM_AK2_DLDI)
 	@echo "  DLDI    $@"
 	$(_V)$(CP) $(NDSROM) $@
 	$(_V)$(DLDIPATCH) patch $(NDSROM_AK2_DLDI) $@
+
+$(NDSROM_GMTF): $(NDSROM) $(NDSROM_GMTF_DLDI)
+	@$(MKDIR) -p $(@D)
+	@echo "  DLDI    $@"
+	$(_V)$(CP) $(NDSROM) $@
+	$(_V)$(DLDIPATCH) patch $(NDSROM_GMTF_DLDI) $@
 
 $(NDSROM): arm9 arm7
 	@$(MKDIR) -p $(@D)
