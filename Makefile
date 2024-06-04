@@ -46,6 +46,9 @@ NDSROM_ACE3DS		:= dist/ace3dsplus/_ds_menu.dat
 NDSROM_AK2		:= dist/generic/akmenu4.nds
 NDSROM_DSONE	:= dist/generic/scfw.sc
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
+NDSROM_ITDS_ENG		:= dist/m3ds/boot.eng
+NDSROM_ITDS_GB		:= dist/m3ds/boot.gb
+NDSROM_ITDS_JP		:= dist/m3ds/boot.jp
 NDSROM_M3DS		:= dist/m3ds/SYSTEM/g6dsload.eng
 NDSROM_R4		:= dist/generic/_DS_MENU.DAT
 NDSROM_R4IDSN		:= dist/r4idsn/_dsmenu.dat
@@ -62,6 +65,9 @@ all: \
 	$(NDSROM_AK2) \
 	$(NDSROM_DSONE) \
 	$(NDSROM_GWBLUE) \
+	$(NDSROM_ITDS_ENG) \
+	$(NDSROM_ITDS_GB) \
+	$(NDSROM_ITDS_JP) \
 	$(NDSROM_M3DS) \
 	$(NDSROM_R4) \
 	$(NDSROM_R4IDSN) \
@@ -151,6 +157,42 @@ $(NDSROM_M3DS): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
 	@echo "  DSBIZE  $@"
 	$(_V)./$(SCRIPT_DSBIZE) $@ 0x12
 	@printf "kari \012" > $(@D)/g6dsload.1
+
+$(NDSROM_ITDS_ENG): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
+	@$(MKDIR) -p $(@D)
+	@echo "  NDSTOOL $@"
+	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
+		-9 build/arm9.bin -7 build/arm7.bin \
+		-r7 0x23ad800 -e7 0x23ad800 \
+		-r9 0x2380000 -e9 0x2380000 -h 0x200
+	@echo "  DLDI    $@"
+	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
+	@echo "  DSBIZE  $@"
+	$(_V)./$(SCRIPT_DSBIZE) $@ 0x32
+
+$(NDSROM_ITDS_GB): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
+	@$(MKDIR) -p $(@D)
+	@echo "  NDSTOOL $@"
+	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
+		-9 build/arm9.bin -7 build/arm7.bin \
+		-r7 0x23ad800 -e7 0x23ad800 \
+		-r9 0x2380000 -e9 0x2380000 -h 0x200
+	@echo "  DLDI    $@"
+	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
+	@echo "  DSBIZE  $@"
+	$(_V)./$(SCRIPT_DSBIZE) $@ 0x33
+
+$(NDSROM_ITDS_JP): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
+	@$(MKDIR) -p $(@D)
+	@echo "  NDSTOOL $@"
+	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
+		-9 build/arm9.bin -7 build/arm7.bin \
+		-r7 0x23ad800 -e7 0x23ad800 \
+		-r9 0x2380000 -e9 0x2380000 -h 0x200
+	@echo "  DLDI    $@"
+	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
+	@echo "  DSBIZE  $@"
+	$(_V)./$(SCRIPT_DSBIZE) $@ 0x37
 
 $(NDSROM_R4IRTSB) $(NDSROM_R4RTS): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
 	@$(MKDIR) -p $(@D)
