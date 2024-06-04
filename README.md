@@ -23,6 +23,7 @@ flashcart's memory card:
 | EZ-Flash V | generic | |
 | EZ-Flash Vi | generic | |
 | Gateway Blue | gwblue | |
+| GBA Movie Player (Compact Flash) | generic | |
 | iSmart Premium | generic | |
 | iTouchDS | m3ds | No bootstub support |
 | M3 DS Real | m3ds | No bootstub support |
