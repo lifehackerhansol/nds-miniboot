@@ -20,8 +20,10 @@ flashcart's memory card:
 | EDGEi | generic | |
 | EZ-Flash Parallel | generic | |
 | EZ-Flash V | generic | |
+| EZ-Flash Vi | ez5i | |
 | Gateway Blue | gwblue | |
 | GBA Movie Player (Compact Flash) | generic | |
+| iSmart Premium | ez5i | |
 | iTouchDS | m3ds | No bootstub support |
 | M3 DS Real | m3ds | No bootstub support |
 | M3i Zero (GMP-Z003) | g003 | No bootstub support |
@@ -34,6 +36,7 @@ flashcart's memory card:
 | R4/R4i RTS (r4rts.com) | m3ds | No bootstub support |
 | r4dspro.com | r4dspro | |
 | r4ids.cn | r4itt | |
+| r4i.cn | ez5i |
 | R6 Gold/Silver | mkr6 | |
 | Stargate 3DS | stargate | |
 | SuperCard DSONE | generic | |
