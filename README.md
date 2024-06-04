@@ -20,6 +20,7 @@ flashcart's memory card:
 | EZ-Flash Parallel | generic |
 | EZ-Flash V | generic |
 | Gateway Blue | gwblue |
+| iTouchDS | m3ds |
 | M3 DS Real | m3ds |
 | R4 (original) | generic |
 | R4 i.L.S. | ace3dsplus |
