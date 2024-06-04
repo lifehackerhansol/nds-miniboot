@@ -35,11 +35,14 @@ NDSROM		:= build/miniboot.nds
 SCRIPT_R4CRYPT		:= scripts/r4crypt.lua
 SCRIPT_DSBIZE		:= scripts/dsbize
 
+PREBUILT_G003		:= blobs/prebuilts/g003
+
 NDSROM_ACE3DS_DLDI	:= blobs/dldi/ace3ds_sd.dldi
 NDSROM_AK2_DLDI		:= blobs/dldi/ak2_sd.dldi
 NDSROM_DSONE_DLDI	:= blobs/dldi/scds3.dldi
 NDSROM_EZ5_DLDI		:= blobs/dldi/ez5h.dldi
 NDSROM_EZ5N_DLDI	:= blobs/dldi/ez5n.dldi
+NDSROM_G003_DLDI	:= blobs/dldi/g003.dldi
 NDSROM_GMTF_DLDI	:= blobs/dldi/gmtf.dldi
 NDSROM_M3DS_DLDI	:= blobs/dldi/m3ds.dldi
 NDSROM_R4_DLDI		:= blobs/dldi/r4tfv3.dldi
@@ -53,6 +56,7 @@ NDSROM_DSONE	:= dist/generic/scfw.sc
 NDSROM_EDGEI	:= dist/generic/dsedgei.dat
 NDSROM_EZ5		:= dist/generic/ez5sys.bin
 NDSROM_EZ5N		:= dist/generic/ezds.dat
+NDSROM_G003		:= dist/g003/SYSTEM/g003menu.eng
 NDSROM_GMTF		:= dist/generic/bootme.nds
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
 NDSROM_ITDS_ENG		:= dist/m3ds/boot.eng
@@ -78,6 +82,7 @@ all: \
 	$(NDSROM_EDGEI) \
 	$(NDSROM_EZ5) \
 	$(NDSROM_EZ5N) \
+	$(NDSROM_G003) \
 	$(NDSROM_GMTF) \
 	$(NDSROM_GWBLUE) \
 	$(NDSROM_ITDS_ENG) \
@@ -222,6 +227,17 @@ $(NDSROM_R4IRTSB) $(NDSROM_R4RTS): arm9 arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE
 	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
 	@echo "  DSBIZE  $@"
 	$(_V)./$(SCRIPT_DSBIZE) $@ 0x72
+
+$(NDSROM_G003): $(NDSROM) $(NDSROM_G003_DLDI) $(PREBUILT_G003) $(SCRIPT_DSBIZE)
+	@$(MKDIR) -p $(@D)
+	@echo "  COPY    $@"
+	$(_V)$(CP) -r $(PREBUILT_G003)/* $(@D)
+	@echo "  DLDI    $@"
+	$(_V)$(CP) $(NDSROM) $@
+	$(_V)$(DLDIPATCH) patch $(NDSROM_G003_DLDI) $@
+	@echo "  DSBIZE  $@"
+	$(_V)./$(SCRIPT_DSBIZE) $@ 0x12
+	@printf "\000\000\000\000\000\000\000\000" > $(@D)/MuliLang.bin
 
 $(NDSROM_R4): $(NDSROM) $(NDSROM_R4_DLDI) $(SCRIPT_R4CRYPT)
 	@$(MKDIR) -p $(@D)
