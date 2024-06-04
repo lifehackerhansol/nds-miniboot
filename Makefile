@@ -51,6 +51,7 @@ NDSROM_EZ5N_DLDI	:= blobs/dldi/ez5n.dldi
 NDSROM_GBAMP_DLDI	:= blobs/dldi/mpcf.dldi
 NDSROM_G003_DLDI	:= blobs/dldi/g003.dldi
 NDSROM_GMTF_DLDI	:= blobs/dldi/gmtf.dldi
+NDSROM_ISMART_DLDI	:= blobs/dldi/mati.dldi
 NDSROM_M3DS_DLDI	:= blobs/dldi/m3ds.dldi
 NDSROM_MKR6_DLDI	:= blobs/dldi/nmk6.dldi
 NDSROM_R4_DLDI		:= blobs/dldi/r4tf.dldi
@@ -65,11 +66,13 @@ NDSROM_DSONE_SDHC	:= dist/dsonesdhc/scfw.sc
 NDSROM_DSTT		:= dist/generic/ttmenu.dat
 NDSROM_EDGEI	:= dist/generic/dsedgei.dat
 NDSROM_EZ5		:= dist/generic/ez5sys.bin
+NDSROM_EZ5I		:= dist/ez5i/ez5isys.bin
 NDSROM_EZ5N		:= dist/generic/ezds.dat
 NDSROM_GBAMP	:= dist/generic/_boot_mp.nds
 NDSROM_G003		:= dist/g003/SYSTEM/g003menu.eng
 NDSROM_GMTF		:= dist/generic/bootme.nds
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
+NDSROM_ISMART		:= dist/ez5i/ismat.dat
 NDSROM_ITDS_ENG		:= dist/m3ds/boot.eng
 NDSROM_ITDS_GB		:= dist/m3ds/boot.gb
 NDSROM_ITDS_JP		:= dist/m3ds/boot.jp
@@ -77,6 +80,7 @@ NDSROM_M3DS		:= dist/m3ds/SYSTEM/g6dsload.eng
 NDSROM_MKR6		:= dist/mkr6/_boot_ds.nds
 NDSROM_R4		:= dist/generic/_DS_MENU.DAT
 NDSROM_R4DSPRO	:= dist/r4dspro/_ds_menu.dat
+NDSROM_R4ICN	:= dist/ez5i/_ds_menu.nds
 NDSROM_R4IDSN		:= dist/r4idsn/_dsmenu.dat
 NDSROM_R4ILS		:= dist/ace3dsplus/_dsmenu.dat
 NDSROM_R4IRTSB		:= dist/m3ds/_ds_menu.sys
@@ -96,11 +100,13 @@ all: arm9plus \
 	$(NDSROM_DSTT) \
 	$(NDSROM_EDGEI) \
 	$(NDSROM_EZ5) \
+	$(NDSROM_EZ5I) \
 	$(NDSROM_EZ5N) \
 	$(NDSROM_GBAMP) \
 	$(NDSROM_G003) \
 	$(NDSROM_GMTF) \
 	$(NDSROM_GWBLUE) \
+	$(NDSROM_ISMART) \
 	$(NDSROM_ITDS_ENG) \
 	$(NDSROM_ITDS_GB) \
 	$(NDSROM_ITDS_JP) \
@@ -108,6 +114,7 @@ all: arm9plus \
 	$(NDSROM_MKR6) \
 	$(NDSROM_R4) \
 	$(NDSROM_R4DSPRO) \
+	$(NDSROM_R4ICN) \
 	$(NDSROM_R4IDSN) \
 	$(NDSROM_R4ILS) \
 	$(NDSROM_R4IRTSB) \
@@ -297,6 +304,12 @@ $(NDSROM_EZ5): $(NDSROM) $(NDSROM_EZ5_DLDI)
 	@echo "  DLDI    $@"
 	$(_V)$(CP) $(NDSROM) $@
 	$(_V)$(DLDIPATCH) patch $(NDSROM_EZ5_DLDI) $@
+
+$(NDSROM_EZ5I) $(NDSROM_ISMART) $(NDSROM_R4ICN): $(NDSROM) $(NDSROM_ISMART_DLDI)
+	@$(MKDIR) -p $(@D)
+	@echo "  DLDI    $@"
+	$(_V)$(CP) $(NDSROM) $@
+	$(_V)$(DLDIPATCH) patch $(NDSROM_ISMART_DLDI) $@
 
 $(NDSROM_EZ5N): $(NDSROM) $(NDSROM_EZ5N_DLDI)
 	@$(MKDIR) -p $(@D)
