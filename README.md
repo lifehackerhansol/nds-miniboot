@@ -21,6 +21,7 @@ flashcart's memory card:
 | EZ-Flash Parallel | generic |
 | EZ-Flash V | generic |
 | Gateway Blue | gwblue |
+| GBA Movie Player (Compact Flash) | generic |
 | R4 (original) | generic |
 | R4 i.L.S. | ace3dsplus |
 | R4/R4i Ultra | r4itt |
