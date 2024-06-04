@@ -34,7 +34,7 @@ flashcarts with a particular load address:
 - all r4ids.cn carts, R4 Ultra and R4i Ultra
     - EWRAM entry (e9 entry address) must be 0x02000800
     - For some reason if you try to change this by setting CRT0 address in LDFLAGS this doesn't work. So a specs file is provided.
-    - R4i Ultra can just be converted to an Acekard 2i. One should do that instead and get the benefits of a true Acekard 2i.
+    - R4i Ultra can be converted to an Acekard 2i, it would then work exactly as the Acekard 2i as explained below
 - Acekard 2, 2.1, 2i
     - EWRAM entry (e9 entry address) must be 0x02000450
 - Amaze3DS / Wood r4igold.cc upgrade
