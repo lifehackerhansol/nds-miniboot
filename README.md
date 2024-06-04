@@ -25,7 +25,9 @@ flashcart's memory card:
 | R4 i.L.S. | ace3dsplus |
 | R4/R4i Ultra | r4itt |
 | R4iDSN | r4idsn |
+| R4iSDHC RTS (black) (r4isdhc.com) | m3ds |
 | R4iTT 3DS | r4itt |
+| R4/R4i RTS (r4rts.com) | m3ds |
 | r4dspro.com | r4dspro |
 | r4ids.cn | r4itt |
 | R6 Gold/Silver | mkr6 |
