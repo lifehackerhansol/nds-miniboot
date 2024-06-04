@@ -14,15 +14,15 @@ flashcarts that have some protection built in
     - encrypt using r4denc with 0x484a
 - Ace3DS+
     - encrypt using r4denc with 0x4002
-    - must use regular ds_arm9.ld and ds_arm7.ld to build (default one used in most DS projects)
+    - cannot load ARM7 in IWRAM
 - R4 i.L.S., all r4isdhc.com.cn carts, r4isdhc.hk carts dated 2020 or newer
     - build with ndstool with args `-g "####" "##" "R4XX"`
     - encrypt using r4denc with 0x4002
-    - must use regular ds_arm9.ld and ds_arm7.ld to build (default one used in most DS projects)
+    - cannot load ARM7 in IWRAM
 - Gateway Blue (possibly R4infinity 2?)
     - build with ndstool with args `-g "####" "##" "R4IT"`
     - encrypt using r4denc with 0x4002
-    - must use regular ds_arm9.ld and ds_arm7.ld to build (default one used in most DS projects)
+    - cannot load ARM7 in IWRAM
 - R4i-SDHC, r4isdhc.com 2014+ carts
     - has a hash checking watermark at every 0x200 bytes
     - Taiju Yamada has an arm9 patcher for this. EWRAM entry (e9 entry address) must be 0x02000450 for this patcher
