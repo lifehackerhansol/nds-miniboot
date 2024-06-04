@@ -46,6 +46,7 @@ NDSROM_DSONE_SDHC_DLDI	:= blobs/dldi/scdssdhc.dldi
 NDSROM_DSTT_DLDI	:= blobs/dldi/ttio.dldi
 NDSROM_EZ5_DLDI		:= blobs/dldi/ez5h.dldi
 NDSROM_EZ5N_DLDI	:= blobs/dldi/ez5n.dldi
+NDSROM_GBAMP_DLDI	:= blobs/dldi/mpcf.dldi
 NDSROM_GMTF_DLDI	:= blobs/dldi/gmtf.dldi
 NDSROM_M3DS_DLDI	:= blobs/dldi/m3ds.dldi
 NDSROM_MKR6_DLDI	:= blobs/dldi/nmk6.dldi
@@ -62,6 +63,7 @@ NDSROM_DSTT		:= dist/generic/ttmenu.dat
 NDSROM_EDGEI	:= dist/generic/dsedgei.dat
 NDSROM_EZ5		:= dist/generic/ez5sys.bin
 NDSROM_EZ5N		:= dist/generic/ezds.dat
+NDSROM_GBAMP	:= dist/generic/_boot_mp.nds
 NDSROM_GMTF		:= dist/generic/bootme.nds
 NDSROM_GWBLUE		:= dist/gwblue/_dsmenu.dat
 NDSROM_ITDS_ENG		:= dist/m3ds/boot.eng
@@ -91,6 +93,7 @@ all: arm9plus \
 	$(NDSROM_EDGEI) \
 	$(NDSROM_EZ5) \
 	$(NDSROM_EZ5N) \
+	$(NDSROM_GBAMP) \
 	$(NDSROM_GMTF) \
 	$(NDSROM_GWBLUE) \
 	$(NDSROM_ITDS_ENG) \
@@ -278,6 +281,12 @@ $(NDSROM_EZ5N): $(NDSROM) $(NDSROM_EZ5N_DLDI)
 	$(_V)$(CP) $(NDSROM) $@
 	$(_V)$(DLDIPATCH) patch $(NDSROM_EZ5N_DLDI) $@
 	$(_V)sed -i "s|\xED\xA5\x8D\xBF|\x00\x00\x00\x00|g" $@
+
+$(NDSROM_GBAMP): $(NDSROM) $(NDSROM_GBAMP_DLDI)
+	@$(MKDIR) -p $(@D)
+	@echo "  DLDI    $@"
+	$(_V)$(CP) $(NDSROM) $@
+	$(_V)$(DLDIPATCH) patch $(NDSROM_GBAMP_DLDI) $@
 
 $(NDSROM_GMTF): $(NDSROM) $(NDSROM_GMTF_DLDI)
 	@$(MKDIR) -p $(@D)
