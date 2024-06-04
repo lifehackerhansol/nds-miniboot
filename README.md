@@ -27,6 +27,7 @@ flashcart's memory card:
 | iSmart Premium | generic | |
 | iTouchDS | m3ds | No bootstub support |
 | M3 DS Real | m3ds | No bootstub support |
+| M3i Zero (GMP-Z003) | g003 | No bootstub support |
 | MoonShell 2.10 | moonshl2 | Bootstub returns to MoonShell |
 | R4 (original) | generic | |
 | R4 i.L.S. | ace3dsplus | |
