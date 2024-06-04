@@ -21,6 +21,7 @@ flashcart's memory card:
 | EZ-Flash V | generic |
 | EZ-Flash Vi | ez5i |
 | Gateway Blue | gwblue |
+| GBA Movie Player (Compact Flash) | generic |
 | iSmart Premium | ez5i |
 | iTouchDS | m3ds |
 | M3 DS Real | m3ds |
