@@ -24,6 +24,7 @@ flashcart's memory card:
 | GBA Movie Player (Compact Flash) | generic | |
 | iTouchDS | m3ds | No bootstub support |
 | M3 DS Real | m3ds | No bootstub support |
+| M3i Zero (GMP-Z003) | g003 | No bootstub support |
 | R4 (original) | generic | |
 | R4 i.L.S. | ace3dsplus | |
 | R4/R4i Ultra | r4itt | |
