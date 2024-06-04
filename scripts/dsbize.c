@@ -57,11 +57,24 @@ void write32(void* p, const unsigned int n) {
     x[0] = n & 0xff, x[1] = (n >> 8) & 0xff, x[2] = (n >> 16) & 0xff, x[3] = (n >> 24) & 0xff;
 }
 
-static int make(const byte* nds, const int ndslen, const char* p, const int key) {
-    byte *p7 = NULL, *p9 = NULL;
+static int make(const char* path, const int key) {
+    byte *p7 = NULL, *p9 = NULL, *nds = NULL;
     u32 l7, l9, a7, a9, a7x, a9x;
+    struct stat st;
     FILE* f = NULL;
     int i = 0;
+
+    if (!(f = fopen(path, "rb+"))) {
+        fprintf(stderr, "cannot open %s\n", path);
+        return -EINVAL;
+    }
+    fstat(fileno(f), &st);
+    if (!(nds = malloc(st.st_size))) {
+        fprintf(stderr, "cannot allocate %d bytes for %s\n", (int)st.st_size, path);
+        return -ENOMEM;
+    }
+    fread(nds, 1, st.st_size, f);
+    fclose(f);
 
     fprintf(stderr, "p9=0x%08x\n", (u32)((p9 = (byte*)nds + read32(nds + 0x20)) - nds));
     fprintf(stderr, "l9=0x%08x\n", l9 = read32(nds + 0x2c));
@@ -75,10 +88,11 @@ static int make(const byte* nds, const int ndslen, const char* p, const int key)
         fprintf(stderr,
                 "e9==r9 && e7==r7 condition isn't satisfied. Rebuild nds "
                 "using ndstool.\n");
+        free(nds);
         return -EINVAL;
     }
 
-    f = fopen(p, "wb");
+    f = fopen(path, "wb");
     write32(dsbhead + 0xcc, a9);
     write32(dsbhead + 0xd0, l9);
     write32(dsbhead + 0xd4, l9 + 0x138 - 0x0c);
@@ -89,35 +103,20 @@ static int make(const byte* nds, const int ndslen, const char* p, const int key)
     fwrite(p9, 1, l9, f);
     fwrite(p7, 1, l7, f);
     fclose(f);
+    free(nds);
 
     return 0;
 }
 
 int main(const int argc, const char** argv) {
-    FILE* f;
-    struct stat st;
-    byte* p;
     int key;
 
-    if (argc < 3) {
-        fprintf(stderr, "dsbize in out [key]\n");
+    if (argc < 2) {
+        fprintf(stderr, "dsbize srl [key]\n");
         return -EINVAL;
     }
     key = argv[3] ? strtol(argv[3], NULL, 0) : 0;
 
-    if (!(f = fopen(argv[1], "rb+"))) {
-        fprintf(stderr, "cannot open %s\n", argv[1]);
-        return -EINVAL;
-    }
-    fstat(fileno(f), &st);
-    if (!(p = malloc(st.st_size))) {
-        fprintf(stderr, "cannot allocate %d bytes for %s\n", (int)st.st_size, argv[1]);
-        return -ENOMEM;
-    }
-    fread(p, 1, st.st_size, f);
-    fclose(f);
-    // fprintf(stderr,"Decrypting %s... ",argv[1]);
-    make(p, st.st_size, argv[2], key);
-    free(p);
+    make(argv[1], key);
     return 0;
 }
