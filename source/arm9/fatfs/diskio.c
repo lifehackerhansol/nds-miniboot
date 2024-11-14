@@ -2,6 +2,7 @@
 #include "../../../fatfs/source/ff.h"			/* Obtains integer types */
 #include "dldi.h"
 #include "../../../fatfs/source/diskio.h"		/* Declarations of disk functions */
+#include "scdssdhc.h"
 
 static DSTATUS status = STA_NOINIT;
 
@@ -10,10 +11,10 @@ DSTATUS disk_status(BYTE pdrv) {
 }
 
 DSTATUS disk_initialize(BYTE pdrv) {
-	if (!_io_dldi_stub.startup())
+	if (!SCDSSDHC_SDInitialize())
 		status = STA_NOINIT;
-	else if (!_io_dldi_stub.isInserted())
-		status = STA_NODISK;
+	//else if (!_io_dldi_stub.isInserted())
+	//	status = STA_NODISK;
 	else
 		status = 0;
 
@@ -26,8 +27,9 @@ DRESULT disk_read (
 	LBA_t sector,	/* Start sector in LBA */
 	UINT count		/* Number of sectors to read */
 ) {
-	if (!_io_dldi_stub.readSectors(sector, count, buff))
-		return RES_ERROR;
+	//if (!_io_dldi_stub.readSectors(sector, count, buff))
+	//	return RES_ERROR;
+	SCDSSDHC_SDReadMultiSector(sector, buff, count);
 	return RES_OK;
 }
 
