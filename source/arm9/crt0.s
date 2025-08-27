@@ -9,6 +9,7 @@
     .syntax unified
 
     .global _start
+    .global executable_path
     .section .start, "ax"
 _start:
     // Vectors + jump to crt0.
@@ -21,6 +22,7 @@ _start:
     .word 0
     ldr pc, =0xFFFF0018
     ldr pc, =0xFFFF001C
+    .word executable_path
 
     .pool
 
@@ -126,5 +128,8 @@ _dma_clear:
     mov sp, r0
 
     b main
+
+executable_path:
+    .ascii "/BOOT.NDS"
 
     .pool
