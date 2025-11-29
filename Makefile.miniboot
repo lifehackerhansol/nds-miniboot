@@ -17,6 +17,7 @@ CPU		:= arm9
 LINKSCRIPT	:= arm9
 SOURCEDIRS	+= fatfs/source source/arm9 source/arm9/fatfs
 ASSETDIRS	+= source/arm9
+DEFINES		+= -DPLUS
 else
 ifeq ($(TARGET),arm9plus)
 CPU		:= arm9
@@ -30,7 +31,7 @@ CPU		:= arm9
 LINKSCRIPT	:= arm9
 SOURCEDIRS	+= fatfs/source source/arm9 source/arm9/fatfs
 ASSETDIRS	+= source/arm9
-DEFINES		+= -D_NO_BOOTSTUB
+DEFINES		+= -D_NO_BOOTSTUB -DPLUS
 else
 ifeq ($(TARGET),arm7)
 CPU		:= arm7
