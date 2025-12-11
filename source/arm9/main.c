@@ -54,7 +54,7 @@ void ipc_arm7_cmd(uint32_t cmd) {
     while (last_sync == next_sync) next_sync = REG_IPCSYNC & 0xF;
 }
 
-const char *executable_path = "/BOOT.NDS";
+const char *executable_path = "/SRESET.DAT";
 
 int main(void) {
     FIL fp;
